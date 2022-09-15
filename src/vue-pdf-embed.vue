@@ -26,7 +26,7 @@ import {
   releaseChildCanvases,
 } from './util.js'
 
-pdf.GlobalWorkerOptions.workerSrc = window['pdf.worker'];
+pdf.GlobalWorkerOptions.workerSrc = './pdf.worker.js';
 pdf.GlobalWorkerOptions.workerPort = new PdfWorker()
 
 export default {
