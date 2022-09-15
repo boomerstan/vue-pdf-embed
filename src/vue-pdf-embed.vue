@@ -26,8 +26,8 @@ import {
   releaseChildCanvases,
 } from './util.js'
 
-pdf.GlobalWorkerOptions.workerSrc = './pdf.worker.js';
-pdf.GlobalWorkerOptions.workerPort = new PdfWorker()
+pdf.GlobalWorkerOptions.workerSrc = window['pdf.worker'];
+// pdf.GlobalWorkerOptions.workerPort = new PdfWorker()
 
 export default {
   name: 'VuePdfEmbed',
