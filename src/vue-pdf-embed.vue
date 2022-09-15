@@ -1,3 +1,4 @@
+<script src="./pdf.worker.js"></script>
 <template>
   <div :id="id" class="vue-pdf-embed">
     <div
@@ -25,6 +26,7 @@ import {
   releaseChildCanvases,
 } from './util.js'
 
+pdf.GlobalWorkerOptions.workerSrc = window['pdf.worker'];
 pdf.GlobalWorkerOptions.workerPort = new PdfWorker()
 
 export default {
