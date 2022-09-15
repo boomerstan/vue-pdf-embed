@@ -27,7 +27,7 @@ import {
 } from './util.js'
 
 pdf.GlobalWorkerOptions.workerSrc = window['pdf.worker'];
-pdf.GlobalWorkerOptions.workerPort = new Worker(window['pdf.worker'])
+pdf.GlobalWorkerOptions.workerPort = new Worker('./pdf.worker.js')
 
 export default {
   name: 'VuePdfEmbed',
