@@ -17,7 +17,7 @@
 
 <script>
 import * as pdf from 'pdfjs-dist/legacy/build/pdf.js'
-import PdfWorker from './pdf.worker.js'
+// import PdfWorker from './pdf.worker.js'
 import { PDFLinkService } from 'pdfjs-dist/legacy/web/pdf_viewer.js'
 import {
   addPrintStyles,
@@ -27,7 +27,7 @@ import {
 } from './util.js'
 
 pdf.GlobalWorkerOptions.workerSrc = window['pdf.worker'];
-pdf.GlobalWorkerOptions.workerPort = new PdfWorker()
+pdf.GlobalWorkerOptions.workerPort = new Worker(window['pdf.worker'])
 
 export default {
   name: 'VuePdfEmbed',
