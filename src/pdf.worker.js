@@ -506,18 +506,20 @@ var WorkerMessageHandler = /*#__PURE__*/function () {
 
       handler.on("GetPage", function wphSetupGetPage(data) {
         return pdfManager.getPage(data.pageIndex).then(function (page) {
-          return Promise.all([pdfManager.ensure(page, "rotate"), pdfManager.ensure(page, "ref"), pdfManager.ensure(page, "userUnit"), pdfManager.ensure(page, "view")]).then(function (_ref3) {
+          return Promise.all([pdfManager.ensure(page, "rotate"), pdfManager.ensure(page, "ref"), pdfManager.ensure(page, "userUnit"), pdfManager.ensure(page, "view"), pdfManager.ensure(page, "trimBox")]).then(function (_ref3) {
             var _ref4 = _slicedToArray(_ref3, 4),
                 rotate = _ref4[0],
                 ref = _ref4[1],
                 userUnit = _ref4[2],
-                view = _ref4[3];
+                view = _ref4[3],
+                trimBox = _ref4[4];
 
             return {
               rotate: rotate,
               ref: ref,
               userUnit: userUnit,
-              view: view
+              view: view,
+              trimBox: trimBox
             };
           });
         });
