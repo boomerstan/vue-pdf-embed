@@ -38,8 +38,6 @@ return /******/ (() => { // webpackBootstrap
 
 "use strict";
 
-console.log('this worker')
-
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
