@@ -1,15 +1,15 @@
 <script src="./pdf.worker.js"></script>
 <template>
-  <div :id="id" class="vue-pdf-embed" style="position:relative;">
+  <div :id="id" class="vue-pdf-embed">
     <div
       v-for="pageNum in pageNums"
       :key="pageNum"
       :id="id && `${id}-${pageNum}`"
     >
-      <canvas style="position:absolute; top:0; left:0; z-index: 0;"/>
+      <canvas style="top:0; left:0; z-index: 0;"/>
 
       <canvas v-show="showBoxes"
-        style="position:absolute; top:0; left:0; z-index: 1; background-color: transparent;"/>
+        style="top:0; left:0; z-index: 1; background-color: transparent;"/>
 
       <div v-if="!disableTextLayer" class="textLayer" />
 
