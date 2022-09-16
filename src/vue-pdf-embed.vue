@@ -1,12 +1,15 @@
 <script src="./pdf.worker.js"></script>
 <template>
-  <div :id="id" class="vue-pdf-embed">
+  <div :id="id" class="vue-pdf-embed" style="position:relative;">
     <div
       v-for="pageNum in pageNums"
       :key="pageNum"
       :id="id && `${id}-${pageNum}`"
     >
-      <canvas />
+      <canvas style="position:absolute; top:0; left:0; z-index: 0;"/>
+
+      <canvas v-show="showBoxes"
+        style="position:absolute; top:0; left:0; z-index: 1; background-color: transparent;"/>
 
       <div v-if="!disableTextLayer" class="textLayer" />
 
@@ -82,6 +85,14 @@ export default {
      */
     scale: Number,
     /**
+     * Whether to show second canvas with boxes
+     * @values Boolean
+     */
+    showBoxes: {
+      type: Boolean,
+      default: true,
+    },
+    /**
      * Source of the document to display.
      * @values String, URL, TypedArray
      */
@@ -151,6 +162,19 @@ export default {
     this.document?.destroy()
   },
   methods: {
+    /**
+     * Draws trimBox and safeBox on overlay canvas
+     * @param {object} canvas2 - second canvas overlay above pdf canvas
+     * @param {array} trimBox - definition coordinates from pdf
+     */
+    drawBoxes(canvas2, trimBox) {
+      const ctx = canvas2.getContext("2d")
+      const safeBox = [trimBox[0]+9, trimBox[1]+9, trimBox[2]-18, trimBox[3]-18]
+      ctx.strokeStyle = 'blue'
+      ctx.strokeRect(trimBox[0], trimBox[1], trimBox[2], trimBox[3])
+      ctx.strokeStyle = 'red'
+      ctx.strokeRect(safeBox[0], safeBox[1], safeBox[2], safeBox[3])
+    },
     /**
      * Returns an array of the actual page width and height based on props and
      * aspect ratio.
@@ -294,7 +318,7 @@ export default {
         await Promise.all(
           this.pageNums.map(async (pageNum, i) => {
             const page = await this.document.getPage(pageNum)
-            const [canvas, div1, div2] = this.$el.children[i].children
+            const [canvas, canvas2, div1, div2] = this.$el.children[i].children
             const [actualWidth, actualHeight] = this.getPageDimensions(
               page.view[3] / page.view[2]
             )
@@ -304,12 +328,18 @@ export default {
             if ((this.rotation / 90) % 2) {
               canvas.style.width = `${Math.floor(actualHeight)}px`
               canvas.style.height = `${Math.floor(actualWidth)}px`
+              canvas2.style.width = `${Math.floor(actualHeight)}px`
+              canvas2.style.height = `${Math.floor(actualWidth)}px`
             } else {
               canvas.style.width = `${Math.floor(actualWidth)}px`
               canvas.style.height = `${Math.floor(actualHeight)}px`
+              canvas2.style.width = `${Math.floor(actualWidth)}px`
+              canvas2.style.height = `${Math.floor(actualHeight)}px`
             }
 
             await this.renderPage(page, canvas, actualWidth)
+
+            await this.drawBoxes(canvas2, trimBox)
 
             if (!this.disableTextLayer) {
               await this.renderPageTextLayer(page, div1, actualWidth)
