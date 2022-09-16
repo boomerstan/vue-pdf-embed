@@ -337,9 +337,9 @@ export default {
               canvas2.style.height = `${Math.floor(actualHeight)}px`
             }
 
-            await this.renderPage(page, canvas, actualWidth)
-
             await this.drawBoxes(canvas2, trimBox)
+            await this.renderPage(page, canvas, canvas2, actualWidth)
+
 
             if (!this.disableTextLayer) {
               await this.renderPageTextLayer(page, div1, actualWidth)
@@ -369,7 +369,7 @@ export default {
      * @param {HTMLCanvasElement} canvas - HTML canvas.
      * @param {number} width - Actual page width.
      */
-    async renderPage(page, canvas, width) {
+    async renderPage(page, canvas, canvas2, width) {
       const viewport = page.getViewport({
         scale: this.scale ?? Math.ceil(width / page.view[2]) + 1,
         rotation: this.rotation,
@@ -377,9 +377,15 @@ export default {
 
       canvas.width = viewport.width
       canvas.height = viewport.height
+      canvas2.width = viewport.width
+      canvas2.height = viewport.height
 
       await page.render({
         canvasContext: canvas.getContext('2d'),
+        viewport,
+      }).promise
+      await page.render({
+        canvasContext: canvas2.getContext('2d'),
         viewport,
       }).promise
     },
