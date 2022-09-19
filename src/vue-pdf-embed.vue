@@ -169,8 +169,8 @@ export default {
      */
     drawBoxes(canvas2, trimBox) {
       const ctx = canvas2.getContext("2d")
-      const tBox = [trimBox[0]+28, trimBox[1]+28, trimBox[2], trimBox[3]]
-      const safeBox = [trimBox[0]+9, trimBox[1]+9, trimBox[2]-18, trimBox[3]-18]
+      const tBox = [trimBox[0]+38, trimBox[1]+38, trimBox[2], trimBox[3]]
+      const safeBox = [tBox[0]+9, tBox[1]+9, tBox[2]-18, tBox [3]-18]
       ctx.strokeStyle = 'blue'
       ctx.strokeRect(trimBox[0]+9, trimBox[1]+9, trimBox[2]-18, trimBox[3]-18)
       ctx.strokeStyle = 'red'
