@@ -9,7 +9,7 @@
       <canvas style="top:0; left:0; z-index: 0;"/>
 
       <canvas v-show="showBoxes"
-        style="top:0; left:0; z-index: 1; background-color: transparent;"/>
+        style="position: absolute; top: 0; left: 0; z-index: 1; background-color: transparent;"/>
 
       <div v-if="!disableTextLayer" class="textLayer" />
 
@@ -329,13 +329,9 @@ export default {
             if ((this.rotation / 90) % 2) {
               canvas.style.width = `${Math.floor(actualHeight)}px`
               canvas.style.height = `${Math.floor(actualWidth)}px`
-              canvas2.style.width = `${Math.floor(actualHeight)}px`
-              canvas2.style.height = `${Math.floor(actualWidth)}px`
             } else {
               canvas.style.width = `${Math.floor(actualWidth)}px`
               canvas.style.height = `${Math.floor(actualHeight)}px`
-              canvas2.style.width = `${Math.floor(actualWidth)}px`
-              canvas2.style.height = `${Math.floor(actualHeight)}px`
             }
 
             await this.renderPage(page, canvas, canvas2, actualWidth)
