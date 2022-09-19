@@ -322,8 +322,9 @@ export default {
             const [actualWidth, actualHeight] = this.getPageDimensions(
               page.view[3] / page.view[2]
             )
+            const cropBox = page._pageInfo.cropBox
             const trimBox = page._pageInfo.trimBox
-            this.$emit('trim-box', trimBox)
+            this.$emit('trim-box', trimBox, cropBox)
 
             if ((this.rotation / 90) % 2) {
               canvas.style.width = `${Math.floor(actualHeight)}px`
@@ -337,8 +338,8 @@ export default {
               canvas2.style.height = `${Math.floor(actualHeight)}px`
             }
 
-            await this.drawBoxes(canvas2, trimBox)
             await this.renderPage(page, canvas, canvas2, actualWidth)
+            await this.drawBoxes(canvas2, trimBox)
 
 
             if (!this.disableTextLayer) {
@@ -382,10 +383,6 @@ export default {
 
       await page.render({
         canvasContext: canvas.getContext('2d'),
-        viewport,
-      }).promise
-      await page.render({
-        canvasContext: canvas2.getContext('2d'),
         viewport,
       }).promise
     },
