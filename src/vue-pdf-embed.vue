@@ -172,7 +172,7 @@ export default {
       const tBox = [trimBox[0]+38, trimBox[1]+38, trimBox[2], trimBox[3]]
       const safeBox = [tBox[0]+9, tBox[1]+9, tBox[2]-18, tBox [3]-18]
       ctx.strokeStyle = 'blue'
-      ctx.strokeRect(trimBox[0]+9, trimBox[1]+9, trimBox[2]-18, trimBox[3]-18)
+      ctx.strokeRect(tBox[0], tBox[1], tBox[2], tBox[3])
       ctx.strokeStyle = 'red'
       ctx.strokeRect(safeBox[0], safeBox[1], safeBox[2], safeBox[3])
     },
