@@ -177,6 +177,9 @@ export default {
       } else if (this.width === 1250) {
         tBox = [trimBox[0]+55, trimBox[1]+55, trimBox[2]+168, trimBox[3]+253]
         safeBox = [tBox[0]+12, tBox[1]+12, tBox[2]-24, tBox [3]-24]
+      } else if (this.width === 1500) {
+        tBox = [trimBox[0]+55, trimBox[1]+55, trimBox[2]+168, trimBox[3]+253]
+        safeBox = [tBox[0]+13, tBox[1]+13, tBox[2]-26, tBox [3]-26]
       }
       ctx.strokeStyle = 'blue'
       ctx.strokeRect(tBox[0], tBox[1], tBox[2], tBox[3])
