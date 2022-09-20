@@ -181,7 +181,7 @@ export default {
         tBox = [trimBox[0]+93, trimBox[1]+93, trimBox[2]+342, trimBox[3]+477]
         safeBox = [tBox[0]+15, tBox[1]+15, tBox[2]-30, tBox [3]-30]
       } else {
-        tBox = [trimBox[0]+173, trimBox[1]+173, trimBox[2]+702, trimBox[3]+937]
+        tBox = [trimBox[0]+168, trimBox[1]+168, trimBox[2]+704, trimBox[3]+942]
         safeBox = [tBox[0]+18, tBox[1]+18, tBox[2]-36, tBox [3]-36]
       }
       ctx.strokeStyle = 'blue'
