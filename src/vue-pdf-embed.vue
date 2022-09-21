@@ -6,10 +6,7 @@
       :key="pageNum"
       :id="id && `${id}-${pageNum}`"
     >
-      <canvas style="top:0; left:0; z-index: 0;"/>
-
-      <canvas v-show="showBoxes"
-        style="position: absolute; top: 0; left: 0; z-index: 1; background-color: transparent;"/>
+      <canvas />
 
       <div v-if="!disableTextLayer" class="textLayer" />
 
@@ -85,14 +82,6 @@ export default {
      */
     scale: Number,
     /**
-     * Whether to show second canvas with boxes
-     * @values Boolean
-     */
-    showBoxes: {
-      type: Boolean,
-      default: true,
-    },
-    /**
      * Source of the document to display.
      * @values String, URL, TypedArray
      */
@@ -162,33 +151,6 @@ export default {
     this.document?.destroy()
   },
   methods: {
-    /**
-     * Draws trimBox and safeBox on overlay canvas
-     * @param {object} canvas2 - second canvas overlay above pdf canvas
-     * @param {array} trimBox - definition coordinates from pdf
-     */
-    drawBoxes(canvas2, trimBox) {
-      const ctx = canvas2.getContext("2d")
-      let tBox = [],
-        safeBox = []
-      if (this.width === 1000) {
-        tBox = [trimBox[0]+20, trimBox[1]+20, trimBox[2]-12, trimBox[3]+18]
-        safeBox = [tBox[0]+9, tBox[1]+9, tBox[2]-18, tBox [3]-18]
-      } else if (this.width === 1250) {
-        tBox = [trimBox[0]+55, trimBox[1]+55, trimBox[2]+168, trimBox[3]+253]
-        safeBox = [tBox[0]+13, tBox[1]+13, tBox[2]-26, tBox [3]-26]
-      } else if (this.width === 1500) {
-        tBox = [trimBox[0]+93, trimBox[1]+93, trimBox[2]+342, trimBox[3]+477]
-        safeBox = [tBox[0]+15, tBox[1]+15, tBox[2]-30, tBox [3]-30]
-      } else {
-        tBox = [trimBox[0]+164, trimBox[1]+164, trimBox[2]+704, trimBox[3]+942]
-        safeBox = [tBox[0]+18, tBox[1]+18, tBox[2]-36, tBox [3]-36]
-      }
-      ctx.strokeStyle = 'blue'
-      ctx.strokeRect(tBox[0], tBox[1], tBox[2], tBox[3])
-      ctx.strokeStyle = 'red'
-      ctx.strokeRect(safeBox[0], safeBox[1], safeBox[2], safeBox[3])
-    },
     /**
      * Returns an array of the actual page width and height based on props and
      * aspect ratio.
@@ -332,7 +294,7 @@ export default {
         await Promise.all(
           this.pageNums.map(async (pageNum, i) => {
             const page = await this.document.getPage(pageNum)
-            const [canvas, canvas2, div1, div2] = this.$el.children[i].children
+            const [canvas, div1, div2] = this.$el.children[i].children
             const [actualWidth, actualHeight] = this.getPageDimensions(
               page.view[3] / page.view[2]
             )
@@ -348,9 +310,7 @@ export default {
               canvas.style.height = `${Math.floor(actualHeight)}px`
             }
 
-            await this.renderPage(page, canvas, canvas2, actualWidth)
-            await this.drawBoxes(canvas2, trimBox)
-
+            await this.renderPage(page, canvas, actualWidth)
 
             if (!this.disableTextLayer) {
               await this.renderPageTextLayer(page, div1, actualWidth)
