@@ -348,8 +348,6 @@ export default {
 
       canvas.width = viewport.width
       canvas.height = viewport.height
-      canvas2.width = viewport.width
-      canvas2.height = viewport.height
 
       await page.render({
         canvasContext: canvas.getContext('2d'),
