@@ -340,7 +340,7 @@ export default {
      * @param {HTMLCanvasElement} canvas - HTML canvas.
      * @param {number} width - Actual page width.
      */
-    async renderPage(page, canvas, canvas2, width) {
+    async renderPage(page, canvas, width) {
       const viewport = page.getViewport({
         scale: this.scale ?? Math.ceil(width / page.view[2]) + 1,
         rotation: this.rotation,
